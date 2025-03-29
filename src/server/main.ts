@@ -4,11 +4,13 @@ import ViteExpress from "vite-express";
 const app = express();
 
 app.use(express.json());
+const nodeEnv = process.env.NODE_ENV || "";
+const env =  nodeEnv == "production" ? "production" : "development";
+
+ViteExpress.config({ mode: env })
 
 app.post("/news", async (req, res) => {
   try {
-
-
     const response = await fetch("http://localhost:8080/news", {
       method: 'POST',
       headers: {
