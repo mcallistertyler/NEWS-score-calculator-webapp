@@ -30,15 +30,8 @@ function App() {
         })
     };
 
-    const handleValidation = (measurementData: NewsMeasurementData) => {
-    }
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        console.log("Running handle submit");
-
-        // handleValidation(formValues);
 
         submitFormRequest(formValues)
             .then(res => {
