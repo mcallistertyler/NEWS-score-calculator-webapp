@@ -16,10 +16,10 @@ function FormInputEntry({id, header, subHeader, required, onChange}: FormEntryPr
     }
 
     return (
-        <div id={id}>
+        <div data-testid={id} id={id}>
             <h3 id={`${id}-header`} className="font-semibold pb-[8px]">{header}</h3>
             <div id={`${id}-subheader`} className="small-text pb-[12px]">{subHeader}</div>
-            <Input id={`${id}-input`} onChange={handleInputChange} required={required} type="number" />
+            <Input id={`${id}-input`} onChange={handleInputChange} required={required} type="number" aria-required={required} aria-describedby={`${id}-subHeader`} aria-labelledby={`${id}-header`} />
         </div>
     );
 }

@@ -23,6 +23,7 @@ function Input({
         <input
             className="indent-[24px] w-full h-[41px] border border-[#7424DA0D] bg-[#FAF6FF] px-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             onChange={handleChange}
+            data-testid={id}
             id={id}
             type={type}
             required={required}
