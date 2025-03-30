@@ -9,6 +9,7 @@ import {MeasurementType, NewsMeasurementData} from "./types/measurement";
 function App() {
 
     const [newsValue, setNewsValue] = useState<number | undefined>(undefined);
+    const [errorValue, setErrorValue] = useState<string | undefined>(undefined);
 
     const [formValues, setFormValues] = useState<NewsMeasurementData>({
         measurements: [
@@ -35,8 +36,13 @@ function App() {
 
         submitFormRequest(formValues)
             .then(res => {
-                console.log("Got something back ", res);
-                setNewsValue(res.score);
+                if (res.type === "success") {
+                    setErrorValue(undefined);
+                    setNewsValue(res.score);
+                } else if(res.type === "error") {
+                    setNewsValue(undefined);
+                    setErrorValue(res.message);
+                }
             })
             .catch(error => {
                 console.error("error submitting form ", error);
@@ -52,10 +58,11 @@ function App() {
             ]
         });
         setNewsValue(undefined);
+        setErrorValue(undefined);
     }
 
     return (
-        <main className="min-w-[404px] min-h-[532px]">
+        <main className="min-w-[var(--form-width)] min-h-[var(--form-height)] max-w-[var(--form-width)] max-h-[var(--form-height)]">
             <form className="w-full" aria-labelledby="form-title" onSubmit={handleSubmit} onReset={handleReset}>
                 <div className="space-y-[40px]">
                     <h2 className="font-semibold text-[20px]" id="form-title">NEWS score calculator</h2>
@@ -82,18 +89,23 @@ function App() {
                             text="Calculate NEWS Score"
                             id="form-submit"
                             type="submit"
-                            className="bg-[#7424DA] rounded-full px-[16px] py-[8px] font-normal text-white cursor-pointer"
+                            className="bg-[var(--submission-button-color)] rounded-full px-[16px] py-[8px] font-normal text-white cursor-pointer"
                         />
                         <Button
                             text="Reset form"
                             id="form-reset"
                             type="reset"
-                            className="bg-[#FAF6FF] rounded-full px-[16px] py-[8px] font-normal cursor-pointer"
+                            className="bg-[var(--reset-button-color)] rounded-full px-[16px] py-[8px] font-normal cursor-pointer"
                         />
                     </div>
                     {newsValue && (
-                        <div className="bg-[#FAF6FF] border border-[#7424DA66] rounded-[10px] px-[16px] py-[16px]">
+                        <div className="bg-[var(--card-background-color)] border border-[var(--card-border-color)] rounded-[10px] px-[16px] py-[16px]">
                             News score: <span className="font-semibold">{newsValue}</span>
+                        </div>
+                    )}
+                    {errorValue && (
+                        <div className="bg-[var(--card-background-color)] border border-[var(--card-border-color)] rounded-[10px] px-[16px] py-[16px]">
+                            {errorValue}
                         </div>
                     )}
                 </div>
